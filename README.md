@@ -1,11 +1,12 @@
-<center>![](assets/badjs_logo.png)</center>
+
+![](assets/badjs_logo.png) 
 
 
 
 BadJS 是 web 前端脚本错误监控及跟踪解决方案。此项目为鹅厂 imweb&ivweb（qq群:179045421, 471082939） 团队的开源项目。  
 
 
-##介绍      
+## 介绍      
 1 一站式体系化解决方案：业务只需要简单的配置，引入上报文件，即可实现脚本错误上报，每日统计邮件跟踪方便。       
 2 可视化查询系统，快速定位错误信息：web应用程序脚本数量庞大，开发人员在如此之多的脚本中定位某个问题变得困难。BadJS能够巧妙定位错误脚本代码，进行反馈。通过各种查询条件，快速找到详细错误日志。          
 3 跨域、Script Error等棘手问题不再是难题：tryjs帮你发现一切。          
@@ -33,7 +34,7 @@ sh -c "$(curl -fsSL https://raw.githubusercontent.com/iv-web/track/master/upgrad
 
 ## 邮件服务
 首先需要有可以代理发邮件的邮件服务器，建议使用qq邮箱, 获取响应的配置信息((帮助)[http://service.mail.qq.com/cgi-bin/help?subtype=1&&no=166&&id=28])
-## 配置
+
 #### 1 进入badjs-web文件夹
 `$cd /data/badjs20/badjs/badjs-web/
 
