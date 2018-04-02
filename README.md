@@ -1,6 +1,5 @@
 
-![](assets/badjs_logo.png) 
-
+<div align=center>  <img src="assets/badjs_logo.png" /></div> 
 
 
 BadJS 是 web 前端脚本错误监控及跟踪解决方案。此项目为鹅厂 imweb&ivweb（qq群:179045421, 471082939） 团队的开源项目。  
@@ -23,7 +22,10 @@ BadJS 是 web 前端脚本错误监控及跟踪解决方案。此项目为鹅厂
 
 ## 安装
 
-腾讯云安装： https://market.qcloud.com/products/3369          
+推荐用腾讯云镜像的方式进行安装，操作简单，只需要在如下的镜像地址里点击`立即购买`，按照`参考文档` 选择服务配置，等待服务器配置完成，就可以使用了。
+腾讯云安装：         
+镜像地址 https://market.qcloud.com/products/3369           
+参考文档 https://ivweb.io/topic/59cf917f12203967d35ca7be          
 
 badjs项目已经开源，如果已经有服务器也可以手动安装，可以参考如下链接进行： https://github.com/BetterJS/badjs-installer
 
@@ -33,12 +35,13 @@ sh -c "$(curl -fsSL https://raw.githubusercontent.com/iv-web/track/master/upgrad
 ```
 
 ## 邮件服务
-首先需要有可以代理发邮件的邮件服务器，建议使用qq邮箱, 获取响应的配置信息((帮助)[http://service.mail.qq.com/cgi-bin/help?subtype=1&&no=166&&id=28])
+首先需要有可以代理发邮件的邮件服务器，建议使用qq邮箱, 获取响应的配置信息 [帮助](http://service.mail.qq.com/cgi-bin/help?subtype=1&&no=166&&id=28)
 
-#### 1 进入badjs-web文件夹
+#### 1 进入badjs-web文件夹 
+ // 腾讯云badjs镜像方式安装         
 `$cd /data/badjs20/badjs/badjs-web/
 
-#### 2 修改篇日志文件 project.json
+#### 2 修改配置文件 project.json
 修改 enable, from, smtp, smtpUser, smtpPassword 字段为正确的值
 ```
     "email": {
@@ -56,15 +59,15 @@ sh -c "$(curl -fsSL https://raw.githubusercontent.com/iv-web/track/master/upgrad
 
 ```
 #### 3 重启badjs-web服务
-`forever start /data/badjs20/badjs/badjs-web/app.js`
+`forever restart /data/badjs20/badjs/badjs-web/app.js`
 
 
 ## 定时任务
-开启定时任务 统计pv 发送评分日报邮件
-编辑定时任务脚本
+开启定时任务 统计pv 发送日报邮件
+编辑定时任务脚本命令：
 `$crontab -e `
 
-添加一下定时任务
+添加如下定时任务脚本内容
 
 ```
 6 0 0 * * * bash /data/badjs20/badjs/badjs-web/service/nginx_log.sh
