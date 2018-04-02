@@ -22,14 +22,15 @@ BadJS 是 web 前端脚本错误监控及跟踪解决方案。此项目为鹅厂
 
 ## 安装
 
-推荐用腾讯云镜像的方式进行安装，操作简单，只需要在如下的镜像地址里点击`立即购买`，按照`参考文档` 选择服务配置，等待服务器配置完成，就可以使用了。
-腾讯云安装：         
+1 腾讯云安装             
+
+推荐用腾讯云镜像的方式进行安装，操作简单，只需要在如下的镜像地址里点击`立即购买`，按照`参考文档` 选择服务配置，等待服务器配置完成，就可以使用了。                           
 镜像地址 https://market.qcloud.com/products/3369           
 参考文档 https://ivweb.io/topic/59cf917f12203967d35ca7be          
 
-badjs项目已经开源，如果已经有服务器也可以手动安装，可以参考如下链接进行： https://github.com/BetterJS/badjs-installer
 
 ## 升级
+升级需要登录到命令行敞口进行操作      
 ```bash
 sh -c "$(curl -fsSL https://raw.githubusercontent.com/iv-web/track/master/upgrade/upgrade.sh?v=1)"
 ```
