@@ -1,0 +1,17 @@
+{
+    "mongodb" : {
+        "url" : "mongodb://badjs-mongodb:27017/badjs",
+        "adminUrl" : "mongodb://badjs-mongodb:27017/admin",
+        "isShard" : false,
+        "limit": 500
+    },
+    "acceptor": {
+      "port" : 10000,
+      "address" : "badjs-run",
+      "subscribe": "badjs",
+      "module": "./acceptor/axon"
+    },
+    "maxAge" : 7,
+    "realTotal" : 3,
+    "port" : 9000
+}

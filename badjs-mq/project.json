@@ -1,0 +1,21 @@
+{
+    "dispatcher": {
+        "port": 10000,
+        "address": "badjs-run"
+    },
+    "acceptor": {
+        "port": 10001,
+        "address": "badjs-run"
+    },
+    "openapi" : {
+        "zmqurl" : "tcp://badjs-run:10000",
+        "port": 9500,
+        "syncProjects":{
+            "port" : 9002
+        }
+    },
+    "mq" : {
+        "module" : "axon"
+    }
+
+}
