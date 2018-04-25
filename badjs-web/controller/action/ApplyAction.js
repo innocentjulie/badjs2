@@ -54,7 +54,6 @@ var applyAction = {
         }
 
         var apply = params;
-        apply.userName = params.user.loginName;
 
         var applyService = new ApplyService();
         if (apply.id) {
@@ -68,9 +67,14 @@ var applyAction = {
                 });
             });
         } else {
+            apply.userName = params.user.loginName;
             apply.status = 0;
             apply.createTime = new Date();
             apply.appkey = crypto.createHash("md5").update(new Date - 0 + "badjsappkey" + params.user.loginName).digest('hex');
+
+            if (apply.limitpv == '') {
+                apply.limitpv = 0;
+            }
             applyService.add(apply, function(err, items) {
                 if (isError(res, err)) {
                     return;

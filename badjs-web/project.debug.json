@@ -2,30 +2,48 @@
     "host" : "http://badjs.server.com/",
     "port": 8081,
     "mysql" : {
-        "url" : "mysql://root:root@localhost:3306/badjs"
+        "url" : "mysql://root:root@badjs-mysql:3306/badjs"
     },
     "storage" : {
-        "errorMsgTopUrl" : "http://127.0.0.1:9000/errorMsgTop",
-        "queryUrl" : "http://127.0.0.1:9000/query"
+        "errorMsgTopUrl" : "http://badjs-run:9000/errorMsgTop",
+        "queryUrl" : "http://badjs-run:9000/query"
     },
     "acceptor": {
-        "pushProjectUrl" : "http://127.0.0.1:9001/getProjects"
+        "pushProjectUrl" : "http://badjs-run:9001/getProjects"
     },
     "openapi": {
-        "pushProjectUrl" : "http://127.0.0.1:9002/getProjects"
+        "pushProjectUrl" : "http://badjs-run:9002/getProjects"
     },
     "mq": {
-        "url": "tcp://127.0.0.1:10000",
+        "url": "tcp://badjs-run:10000",
         "subscribe": "badjs",
         "module": "axon"
     },
     "email": {
-        "homepage": "http://badjs.server.com/user/index.html",
+        "enable": false,
+        "homepage": "http://ip_or_hostname:8081/user/index.html",
         "from": "noreply-badjs@demo.com",
-        "emailSuffix" : "@demo.com",
+        "emailSuffix" : "@tencent.com",
         "smtp": "smtp.demo.com",
-        "time": "09:00:00",
+        "smtpUser":   "username",
+        "smtpPassword":"password",
+        "ivwebMailuser": "qqnumber@qq.com",
+        "ivwebMailpass": "xxxx",
+        "time": "06:00:00",
         "top": 20,
-        "module": "email"
-    }
+        "module": "ivwebMail"
+    },
+    "plugin": [
+        {
+            "name": "feflow",
+            "enable": false,
+            "config": {}
+        },
+        {
+            "name": "oa-login",
+            "enable": false,
+            "config": {}
+        }
+    ],
+    "scoreMailTo": "x@x.com_or_rtxname"
 }

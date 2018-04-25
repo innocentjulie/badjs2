@@ -4,6 +4,7 @@
  */
 
 var http = require('http');
+var querystring =require('querystring');
 
 var log4js = require('log4js'),
     BusinessService = require('./BusinessService'),
@@ -33,6 +34,38 @@ var LogService = function() {
     logger.debug('query url : ' + this.queryUrl);
 };
 
+
+function postDataToGetProject(port, data) {
+
+     const postData = querystring.stringify(data);
+
+     const options = {
+         hostname: '127.0.0.1',
+         port: port,
+         path: '/getProjects',
+         method: 'POST',
+         headers: {
+             'Content-Type': 'application/x-www-form-urlencoded',
+             'Content-Length': Buffer.byteLength(postData)
+         }
+     };
+
+     const req = http.request(options, (res) => {
+         res.setEncoding('utf8');
+         res.on('data', (chunk) => {
+             console.log(`${chunk}`);
+         });
+         res.on('end', () => {
+         });
+     });
+
+     req.on('error', (e) => {
+         console.error(`${data.auth}, error: ${e.message}`);
+     });
+
+     req.write(postData);
+     req.end();
+}
 
 
 LogService.prototype = {
@@ -100,6 +133,8 @@ LogService.prototype = {
                     }
                 };
 
+/*
+
                 request.post(self.pushProjectUrl, {
                     form: {
                         projectsInfo: JSON.stringify(projectsInfo),
@@ -115,7 +150,20 @@ LogService.prototype = {
                     }
                     resultCall();
                 });
+                */
 
+                postDataToGetProject(9001, {
+
+                      projectsInfo: JSON.stringify(projectsInfo),
+                      auth: "badjsAccepter"
+                })
+
+                postDataToGetProject(9002, {
+
+                      projectsInfo: JSON.stringify(projectsInfo),
+                      auth: "badjsOpen"
+                })
+/*
                 request.post(self.pushProjectUrl2, {
                     form: {
                         projectsInfo: JSON.stringify(projectsInfo),
@@ -131,6 +179,7 @@ LogService.prototype = {
                     }
                     resultCall();
                 });
+                */
 
             });
         };

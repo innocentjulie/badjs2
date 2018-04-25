@@ -6,7 +6,7 @@ const orm = require('orm');
 console.log(process.argv);
 var filePath = process.argv[2];
 var date = process.argv[3]
-var pv = {}, pvlist = [], badjsid;
+var pv = {}, logdata = [], badjsid, logpv = 0;
 
 var pjconfig = require('../project.json');
 
@@ -29,46 +29,32 @@ const rl  = readline.createInterface({
 });
 
 rl.on('line', (input) => {
-	var r  = /\/badjs\/(\d+)/g.exec(input);
-
-	if (r) {
-	    badjsid = r[1];
-	    if (!pv[badjsid]) {
-	        pv[badjsid] = 1;
-	    } else {
-	        pv[badjsid] += 1;
-	    }
-	}
+    logpv ++;
 })
 
 
 rl.on('close', () => {
     console.log('文件读完了。')
-    for(i in pv) {
 
-	pvlist.push({
-	    badjsid: i - 0,
-	    pv: pv[i],
+	logdata.push({
+	    logpv: logpv,
 	    date: date -0
 	})
-    }
 
-
-    console.log(pvlist);
+    console.log(logdata);
 
     var mdb = orm.connect(mysqlUrl, function(err, db){
 
-		//createScore(db, pvlist);
+		//createScore(db, logdata);
 		//return;
-        var pv = db.define("b_pv", {
+        var pv = db.define("b_log_data", {
             id          : Number,
-            badjsid          : Number,
-            pv          : Number,
+            logpv          : Number,
             date          : Number
         });
 
 
-        pv.create(pvlist, function(err, items) {
+        pv.create(logdata, function(err, items) {
 
             if (!err) {
                 console.log('ok')

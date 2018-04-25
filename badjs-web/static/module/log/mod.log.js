@@ -305,7 +305,7 @@ function init() {
         format: 'YYYY-MM-DD HH:mm'
     }).data("DateTimePicker").setMaxDate(new Date());
 
-    $('#startTime').data("DateTimePicker").setDate(new Date(new Date() - maxDate));
+    $('#startTime').data("DateTimePicker").setDate(new Date(new Date() - 6 * 60 * 60 * 1000));
     $('#endTime').data("DateTimePicker").setDate(new Date());
 }
 

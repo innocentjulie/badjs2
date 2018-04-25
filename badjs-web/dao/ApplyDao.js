@@ -17,7 +17,9 @@ module.exports  = function (db){
         description : String,
         mail        : String,
         createTime  : Date,
-        passTime    : Date
+        passTime    : Date,
+        online      : Number,
+        limitpv     : Number
     });
 
     return apply;

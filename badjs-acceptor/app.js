@@ -6,6 +6,7 @@ var connect = require('connect'),
 var url = require("url")
 var http = require("http");
 var path = require("path");
+var querystring = require('querystring');
 
 var cluster = require('cluster');
 var argv = process.argv.slice(2);
@@ -156,6 +157,81 @@ var reponseReject = function (req , res , responseHeader){
 connect()
     .use('/badjs', connect.query())
     .use('/badjs', connect.bodyParser())
+    .use('/badjs/offlineLog', function(req, res) {
+
+        // 大于 10ms , forbidden
+        if(parseInt(req.headers['content-length']) > 10485760){
+            res.end('too large');
+            return ;
+        }
+
+        var log = req.body.offline_log;
+
+        if(!global.pjconfig.offline.olrUrl){
+
+            res.end('error no orl url.');
+            return
+        }
+
+        var postData = querystring.stringify({
+            "offline_log": log
+        })
+
+        console.log(global.pjconfig.offline.olrUrl);
+
+        var httpPost = {
+            hostname: global.pjconfig.offline.olrUrl.hostname,
+            port: global.pjconfig.offline.olrUrl.port,
+            path: global.pjconfig.offline.olrUrl.path,
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',
+                'Content-Length': Buffer.byteLength(postData)
+            }
+        }
+
+        const req2 = http.request(httpPost, (res2) => {
+              console.log(`STATUS: ${res2.statusCode}`);
+              console.log(`HEADERS: ${JSON.stringify(res2.headers)}`);
+              res2.setEncoding('utf8');
+              res2.on('data', (chunk) => {
+                console.log(`BODY: ${chunk}`);
+              });
+              res2.on('end', () => {
+                console.log('No more data in response.');
+              });
+        });
+
+        req2.on('error', (e) => {
+              console.error(`problem with req2uest: ${e.message}`);
+        });
+
+        // write data to req2uest body
+        req2.write(postData);
+        req2.end();
+
+        res.end('ok');
+
+    })
+    .use('/badjs/offlineAuto', function(req, res) {
+        var param = req.query;
+        http.get( global.pjconfig.offline.offlineLogCheck + "?id="+param.id +"&uin="+ param.uin , function (clientRes){
+            var result ="";
+            clientRes.setEncoding('utf8');
+            clientRes.on("data" , function (chunk){
+                result += chunk
+            })
+
+            clientRes.on("end" , function (){
+                //res.write()
+                res.end("window && window._badjsOfflineAuto && window._badjsOfflineAuto("+(result ? result : false)+");")
+            })
+        }).on('error', function (e){
+            logger.warn("offlineLogCheck err , ", e)
+            res.end("window && window._badjsOfflineAuto && window._badjsOfflineAuto(false);")
+        });
+
+    })
     .use('/badjs', function(req, res) {
 
         logger.debug('===== get a message =====');
@@ -215,71 +291,6 @@ connect()
 
     })
     //.use('/offlineLog', connect.bodyParser())
-    .use('/badjs/offlineLog', function(req, res) {
-
-        // 大于 10ms , forbidden
-        if(parseInt(req.headers['content-length']) > 10485760){
-            res.end();
-            return ;
-        }
-
-        var bufData = [];
-        req.on("data" , function (chunck){
-            bufData.push(chunck)
-        })
-        req.on("end" , function (){
-            res.end();
-            if(!global.pjconfig.offline.olrUrl){
-                return
-            }
-
-            var httpPost = http.request({
-                hostname: global.pjconfig.offline.olrUrl.hostname,
-                port: global.pjconfig.offline.olrUrl.port,
-                path: global.pjconfig.offline.olrUrl.path,
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/x-www-form-urlencoded',
-                    'Content-Length': req.headers['content-length'],
-                    'User-Agent': req.headers['user-agent'],
-                    'X-Forwarded-For' :  getClientIp(req)
-                }
-            })
-
-            httpPost.on("error" , function (e){
-                logger.warn("offlineLogReport err , ", e)
-            })
-
-            httpPost.write(Buffer.concat(bufData) , function (){
-                httpPost.end();
-            })
-
-
-
-        })
-
-    })
-    .use('/badjs/offlineAuto', connect.query())
-    .use('/badjs/offlineAuto', function(req, res) {
-        var param = req.query;
-
-        http.get( global.pjconfig.offline.offlineLogCheck + "?id="+param.id +"&uin="+ param.uin , function (clientRes){
-            var result ="";
-            clientRes.setEncoding('utf8');
-            clientRes.on("data" , function (chunk){
-                result += chunk
-            })
-
-            clientRes.on("end" , function (){
-                //res.write()
-                res.end("window && window._badjsOfflineAuto && window._badjsOfflineAuto("+(result ? result : false)+");")
-            })
-        }).on('error', function (e){
-            logger.warn("offlineLogCheck err , ", e)
-            res.end("window && window._badjsOfflineAuto && window._badjsOfflineAuto(false);")
-        });
-
-    })
     .listen(global.pjconfig.port);
 
 logger.info('start badjs-accepter , listen ' + global.pjconfig.port + ' ...');

@@ -1,7 +1,7 @@
 var log4js = require('log4js'),
     logger = log4js.getLogger();
 
-var emailConf = global.pjconfig.email;
+    var emailConf = global.pjconfig.email;
 
 
 
@@ -39,5 +39,5 @@ module.exports = function (){
             new EmailService().start();
         }
     },3000)
-
+    
 }

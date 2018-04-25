@@ -1,15 +1,15 @@
-webpackJsonp([9],{
+webpackJsonp([11],{
 
 /***/ 0:
 /***/ function(module, exports, __webpack_require__) {
 
-	var applyList = __webpack_require__(9);
+	var applyList = __webpack_require__(8);
 
 	applyList.init();
 
 /***/ },
 
-/***/ 9:
+/***/ 8:
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function($) {/**
@@ -18,8 +18,8 @@ webpackJsonp([9],{
 	 * */
 
 
-	var Dialog = __webpack_require__(26);
-	var applyTable = __webpack_require__(149);
+	var Dialog = __webpack_require__(141);
+	var applyTable = __webpack_require__(145);
 
 
 	    var maxDate = 60*60*1000*24 *2;
@@ -182,7 +182,7 @@ webpackJsonp([9],{
 	    }
 
 	module.exports = {
-	        init: init
+	    init: init
 	}
 
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(5)))
@@ -369,7 +369,7 @@ webpackJsonp([9],{
 
 /***/ },
 
-/***/ 26:
+/***/ 141:
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function($) {var Delegator = __webpack_require__(21);
@@ -421,7 +421,7 @@ webpackJsonp([9],{
 
 /***/ },
 
-/***/ 149:
+/***/ 145:
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(_) {module.exports = function (obj) {
@@ -439,7 +439,7 @@ webpackJsonp([9],{
 	;
 	__p += '\n';
 	 if(len !=0){;
-	__p += '\n<thead>\n<tr>\n    <!--<th><input class="tableSelectCheckBox parentCheckBox" type="checkbox"/></th>-->\n    <th>#</th>\n    <th style="width:80px;">上报id</th>\n    <th style="width:80px;">appkey</th>\n    <th >名称</th>\n    <th>申请人</th>\n    <th style="width:120px;">申请时间</th>\n   <!-- <th >业务描述</th>-->\n    <th >详情</th>\n    <th style="width:120px;">' +
+	__p += '\n<thead>\n<tr>\n    <!--<th><input class="tableSelectCheckBox parentCheckBox" type="checkbox"/></th>-->\n    <th>#</th>\n    <th style="width:80px;">上报id</th>\n    <th style="width:80px;">appkey</th>\n    <th >名称</th>\n    <th>申请人</th>\n    <th style="width:120px;">申请时间</th>\n   <!-- <th >业务描述</th>-->\n    <th >详情</th>\n    <th>上线</th>\n    <th>pv</th>\n    <th style="width:120px;">' +
 	((__t = ( it.role ==1 ? '操作' : '状态')) == null ? '' : __t) +
 	'</th>\n    ';
 	if (it.role != 1) { ;
@@ -503,9 +503,15 @@ webpackJsonp([9],{
 	((__t = (xss.inHTMLData(one.description))) == null ? '' : __t) +
 	'"><b>描述：</b>' +
 	((__t = (xss.inHTMLData(one.description))) == null ? '' : __t) +
-	'</span>\n        </td>\n\n        <td class="apply_operation">\n            ';
+	'</span>\n        </td>\n\n        <td>\n            ' +
+	((__t = ( (one.online == 2 ? "上线" : "下线") )) == null ? '' : __t) +
+	'\n        </td>\n        <td>\n            ' +
+	((__t = ( one.limitpv )) == null ? '' : __t) +
+	'\n        </td>\n        <td class="apply_operation">\n            ';
 	if(it.role == 1){;
-	__p += '\n            <div  class="modifyBtn approveBtn ' +
+	__p += '\n            <button class="modifyBtn" style="margin-bottom: 5px;">\n                <a href="apply.html?applyId=' +
+	((__t = (one.id)) == null ? '' : __t) +
+	'">编辑</a>\n            </button>\n            <div  class="modifyBtn approveBtn ' +
 	((__t = (statusClass)) == null ? '' : __t) +
 	'">\n                ' +
 	((__t = ( statusText)) == null ? '' : __t) +

@@ -1,13 +1,13 @@
 {
     "mongodb" : {
-        "url" : "mongodb://localhost:27017/badjs",
-        "adminUrl" : "mongodb://localhost:27017/admin",
+        "url" : "mongodb://badjs-mongodb:27017/badjs",
+        "adminUrl" : "mongodb://badjs-mongodb:27017/admin",
         "isShard" : false,
         "limit": 500
     },
     "acceptor": {
       "port" : 10000,
-      "address" : "127.0.0.1",
+      "address" : "badjs-run",
       "subscribe": "badjs",
       "module": "./acceptor/axon"
     },

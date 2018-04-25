@@ -55,6 +55,7 @@ function getRoutePluginInfo(plugin) {
 
         })
 
+        logger.info(`plugin: ${plugin.name}`);
 
     }
 }

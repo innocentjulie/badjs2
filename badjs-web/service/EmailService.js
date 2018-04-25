@@ -21,8 +21,11 @@ var EmailService = function() {
     this.userService = new UserService();
     this.statisticsService = new StatisticsService();
     this.top = parseInt(global.pjconfig.email.top, 10) || 20;
-    this.from = global.pjconfig.email.from || "x@x.com";
+    this.from = global.pjconfig.email.from || "xx@xx.com";
     this.homepage = global.pjconfig.email.homepage;
+    if (process.env.WEB_EMAIL_HOMEPAGE) {
+        this.homepage = process.env.WEB_EMAIL_HOMEPAGE;
+    }
     this.host = global.pjconfig.host;
 };
 
@@ -138,7 +141,7 @@ EmailService.prototype = {
 		.replace(/{{score}}/g, score)
             );
 
-	    html.push('<p>注：badjs得分规则</p> <p>（1）当报错率 <= 0.5%： badjs得分=100</p> <p>（2）当 0.5%< 报错率 < 10%：badjs得分： 100 - 10 * 报错率</p> <p>（3）当报错率 >= 10%： badjs得分=0</p>');
+	    // html.push('<p>注：badjs得分规则</p> <p>（1）当报错率 <= 0.5%： badjs得分=100</p> <p>（2）当 0.5%< 报错率 < 10%：badjs得分： 100 - 10 * 报错率</p> <p>（3）当报错率 >= 10%： badjs得分=0</p>');
 
 	    // 质量趋势图
 
@@ -208,13 +211,17 @@ EmailService.prototype = {
                             }
                             cc_list = [];
                         }
+
+                        // 处理业务数据
                         that.statisticsService.queryById({
                             top: that.top,
                             projectId: applyId,
                             startDate: that.date
                         }, function(err, data) {
                             if (err) return logger.error('Send email statisticsService queryById error ' + applyId);
-                            if (data && data.length > 0) {
+
+                            if (data && data.length > 0 && data[0].content && data[0].content.length > 0) {
+
                                 that.statisticsService.queryByChart({
                                     projectId: applyId,
                                     timeScope: 2
@@ -239,12 +246,12 @@ EmailService.prototype = {
                                                 } else {
                                                     var imagePath = "static/img/tmp/" + (new Date - 0 + applyId) + ".png";
                                                     fs.writeFile(path.join(__dirname, "..", imagePath), new Buffer(image, 'base64'), function() {
-							that.sendEmail({
-							    to: to_list,
-							    cc: cc_list,
-							    title: name,
-							    imagePath: imagePath
-							}, data[0], applyId);
+                                                        that.sendEmail({
+                                                            to: to_list,
+                                                            cc: cc_list,
+                                                            title: name,
+                                                            imagePath: imagePath
+                                                        }, data[0], applyId);
                                                     });
                                                 }
                                             });
@@ -252,7 +259,7 @@ EmailService.prototype = {
                                     }
                                 });
                             } else {
-                                logger.error('Send email data format error by ' + applyId );
+                                logger.error('Send email data format error, no badjs msg, by ' + applyId );
                             }
                         }); // jshint ignore:line
                     })(orderByApplyId[applyId], applyId); // jshint ignore:line
@@ -280,8 +287,8 @@ EmailService.prototype = {
 
             var attachments = [{
                 filename: data.cid1 + '01.png',
-            path: that.host + emails.imagePath,
-            cid: data.cid1
+                path: that.host + emails.imagePath,
+                cid: data.cid1
             }]
             sendEmail(this.from, emails.to, emails.cc, title, content, attachments);
         })
@@ -297,6 +304,10 @@ EmailService.prototype = {
             that.queryAll();
         }, timeDiff);
         logger.info('Email service will start after: ' + timeDiff);
+    },
+    test_start: function() {
+        this.queryAll(false);
+        logger.info('test Email service start');
     }
 };
 

@@ -14,7 +14,7 @@ orm.connect( mysql, function(err , db) {
     userDao.find({} , function (err , item){
 
         item.forEach(function (value){
-            value.email = value.loginName + "@x.com";
+            value.email = value.loginName + "@xx.com";
             value.save();
         })
 

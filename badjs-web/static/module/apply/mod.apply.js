@@ -37,8 +37,14 @@ function bindEvent() {
             description: $('.apply-description').val(),
             url: mainpage,
             blacklist: JSON.stringify(blackList),
-            id: $("#applyId").val()
+            id: $("#applyId").val(),
+            online: document.getElementById("online").checked ? 2 : 1,
+            limitpv: $("#limitpv").val()
         });
+
+        if ($("#userName")) {
+            params.userName = $("#userName").val()
+        }
 
         $.post('./controller/applyAction/addApply.do', params, function(data) {
             var ret = data.ret;

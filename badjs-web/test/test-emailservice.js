@@ -34,7 +34,7 @@ var log4js = require('log4js'),
      // new email().queryAll();
  
         console.log('start email report ...');
-        new EmailService().start();
+        new EmailService().test_start();
  });
 
 

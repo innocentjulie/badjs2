@@ -168,5 +168,5 @@ var applyTable = require("./template/applyTable.ejs");
     }
 
 module.exports = {
-        init: init
+    init: init
 }

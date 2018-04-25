@@ -4,7 +4,10 @@ const orm = require('orm');
 
 var pv = {}, pvlist = [], badjsid;
 
-var mysqlUrl  = 'mysql://root:root@localhost:3306/badjs';
+
+var pjconfig = require('../project.json');
+
+var mysqlUrl  = pjconfig.mysql.url;
 
 var getYesterday = function() {
     var date = new Date();
@@ -19,7 +22,6 @@ var getYesterdayForPv = function() {
 };
 
 
-var mysqlUrl  = 'mysql://root:root@localhost:3306/badjs';
 
 var mdb = orm.connect(mysqlUrl, function(err, db){
 

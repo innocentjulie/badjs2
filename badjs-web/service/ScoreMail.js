@@ -2,8 +2,9 @@ var pv = require('./handle_pv_2.js');
 const orm = require('orm');
 
 
+var pjconfig = require('../project.json');
 
-var mysqlUrl  = 'mysql://root:root@localhost:3306/badjs';
+var mysqlUrl  = pjconfig.mysql.url;
 
 var mdb = orm.connect(mysqlUrl, function(err, db){
 

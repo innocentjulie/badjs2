@@ -36,7 +36,7 @@ var autoClearStart = function (){
                     return ;
                 }
                 logger.info("start clear " + collection.s.name);
-                collection.deleteMany({ date : { $lt : new Date(new Date - beforeDate)}} , function (err , result){
+                collection.deleteMany({ date : { $lt : (new Date - beforeDate)}} , function (err , result){
                     if(err){
                         logger.info("clear error " +  err);
                     }else {

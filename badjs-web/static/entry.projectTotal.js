@@ -3,13 +3,13 @@ webpackJsonp([8],{
 /***/ 0:
 /***/ function(module, exports, __webpack_require__) {
 
-	var projectTotal = __webpack_require__(17);
+	var projectTotal = __webpack_require__(16);
 
 	projectTotal.init();
 
 /***/ },
 
-/***/ 17:
+/***/ 16:
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function($, _) {/* global _ */
@@ -18,10 +18,10 @@ webpackJsonp([8],{
 	 * @author coverguo
 	 *
 	 */
-	__webpack_require__(22);
-	__webpack_require__(27);
-	__webpack_require__(28);
-	var Dialog = __webpack_require__(26);
+	__webpack_require__(24);
+	__webpack_require__(142);
+	__webpack_require__(143);
+	var Dialog = __webpack_require__(141);
 	var statisticsTpl = __webpack_require__(150);
 
 	var dayNumber = 0,
@@ -334,7 +334,7 @@ webpackJsonp([8],{
 
 /***/ },
 
-/***/ 22:
+/***/ 24:
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/* WEBPACK VAR INJECTION */(function(jQuery) {/**
@@ -2193,7 +2193,7 @@ webpackJsonp([8],{
 
 /***/ },
 
-/***/ 26:
+/***/ 141:
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function($) {var Delegator = __webpack_require__(21);
@@ -2245,7 +2245,7 @@ webpackJsonp([8],{
 
 /***/ },
 
-/***/ 27:
+/***/ 142:
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(__webpack_provided_window_dot_jQuery) {/*
@@ -2558,7 +2558,7 @@ webpackJsonp([8],{
 
 /***/ },
 
-/***/ 28:
+/***/ 143:
 /***/ function(module, exports, __webpack_require__) {
 
 	/**

@@ -3,7 +3,7 @@ var path = require('path')
 var Promise = require('bluebird')
 var moment = require('moment');
 var logger = require('log4js').getLogger();
-var exporting = require('node-highcharts-exporting');
+var exporting = require('node-highcharts-exporting-v2');
 var fs = require('fs');
 
 var dateKey = [];
@@ -143,8 +143,10 @@ function getImg(xkey, data, extParam, index) {
         console.log(_path);
 
         // console.log(image)
-        fs.writeFile(_path, new Buffer(image, 'base64'), function() {
-
+        fs.writeFile(_path, new Buffer(image, 'base64'), function(err) {
+            if (err) {
+		console.error(err);
+            }
         })
     })
 }

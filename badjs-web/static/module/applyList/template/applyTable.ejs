@@ -17,6 +17,8 @@
     <th style="width:120px;">申请时间</th>
    <!-- <th >业务描述</th>-->
     <th >详情</th>
+    <th>上线</th>
+    <th>pv</th>
     <th style="width:120px;"><%= it.role ==1 ? '操作' : '状态'%></th>
     <%if (it.role != 1) { %>
     <th style="width:120px;">操作</th>
@@ -83,8 +85,17 @@ for(var i = 0; i<len ; i++){
             <span style="width:270px;" class="textOverflow" title="<%=xss.inHTMLData(one.description)%>"><b>描述：</b><%=xss.inHTMLData(one.description)%></span>
         </td>
 
+        <td>
+            <%= (one.online == 2 ? "上线" : "下线") %>
+        </td>
+        <td>
+            <%= one.limitpv %>
+        </td>
         <td class="apply_operation">
             <%if(it.role == 1){%>
+            <button class="modifyBtn" style="margin-bottom: 5px;">
+                <a href="apply.html?applyId=<%=one.id%>">编辑</a>
+            </button>
             <div  class="modifyBtn approveBtn <%=statusClass%>">
                 <%= statusText%>
             </div>

@@ -62,3 +62,6 @@ db/create.sql 是需要初始化到 mysql 的中。其中默认的超级管理�
 }
 ```
 
+### 新增用户
+INSERT INTO `b_user` VALUES (null,'xxx','xxx',0,'xxx@xxx.com','bbe4b161b9dab597e82f5fab7c9bed0d');
+

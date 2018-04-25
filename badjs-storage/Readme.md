@@ -26,3 +26,8 @@
      "port" : 9000 //  http 服务端口
 }
 ```
+
+#mongodb启动命令
+/data/home/server/mongodb/bin/mongod --port 27018 --dbpath=/data/data2/mongodb/badjs/ --logpath=/data/data2/mongodb/log_20171215201501 --fork
+如果要启动fork模式一定要设置 logpath
+

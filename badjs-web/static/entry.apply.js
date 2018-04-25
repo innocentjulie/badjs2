@@ -3,13 +3,13 @@ webpackJsonp([1],{
 /***/ 0:
 /***/ function(module, exports, __webpack_require__) {
 
-	var apply = __webpack_require__(8);
+	var apply = __webpack_require__(9);
 
 	apply.init();
 
 /***/ },
 
-/***/ 8:
+/***/ 9:
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function($) {/**
@@ -20,7 +20,7 @@ webpackJsonp([1],{
 	var REG_REFERER = /^https?:\/\/[^\/]+\//i;
 	var REG_DOMAIN_STAR = /^\*(\.[^\/]+)?$/;
 
-	var Dialog = __webpack_require__(26);
+	var Dialog = __webpack_require__(141);
 
 
 	var applyBox = $("#applyContainer");
@@ -51,8 +51,14 @@ webpackJsonp([1],{
 	            description: $('.apply-description').val(),
 	            url: mainpage,
 	            blacklist: JSON.stringify(blackList),
-	            id: $("#applyId").val()
+	            id: $("#applyId").val(),
+	            online: document.getElementById("online").checked ? 2 : 1,
+	            limitpv: $("#limitpv").val()
 	        });
+
+	        if ($("#userName")) {
+	            params.userName = $("#userName").val()
+	        }
 
 	        $.post('./controller/applyAction/addApply.do', params, function(data) {
 	            var ret = data.ret;
@@ -264,7 +270,7 @@ webpackJsonp([1],{
 
 /***/ },
 
-/***/ 26:
+/***/ 141:
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function($) {var Delegator = __webpack_require__(21);

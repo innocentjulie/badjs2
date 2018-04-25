@@ -1,3 +1,12 @@
+/**
+ 注：badjs得分规则
+
+（1）当报错率 <= 0.5%： badjs得分=100
+
+（2）当 0.5%< 报错率 < 10%：badjs得分： 100 - 10 * 报错率
+
+（3）当报错率 >= 10%： badjs得分=0
+ */
 
 var handleScore = function (pv, e_pv) {
     

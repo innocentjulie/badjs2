@@ -12,7 +12,7 @@ exports.module = {
 
 
 	var logger = require('log4js').getLogger();
-	var exporting = require('node-highcharts-exporting');
+	// var exporting = require('node-highcharts-exporting');
 	var StatisticsService = require('../service/StatisticsService');
 
 

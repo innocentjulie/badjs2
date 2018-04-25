@@ -1,7 +1,7 @@
 {
-  "name": "track",
+  "name": "badjs2",
   "version": "1.0.0",
-  "description": "track for man",
+  "description": "badjs2 快捷安装模块",
   "main": "start.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -10,7 +10,7 @@
     "node-highcharts-exporting-v2": "^0.0.9"
   },
   "scripts": {
-    "clone": "git clone https://github.com/iv-web/track.git",
+    "clone": "git clone https://github.com/iv-web/badjs2.git",
     "install": "npm run install-acceptor && npm run install-mq && npm run install-storage && npm run install-web",
     "install-acceptor": "cd badjs-acceptor && npm install",
     "install-mq": "cd badjs-mq && npm install",
@@ -20,14 +20,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/iv-web/badjs.git"
+    "url": "git+https://github.com/iv-web/badjs2.git"
   },
   "author": "sampson",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/miniflycn/badjs-installer/issues"
   },
-  "homepage": "https://github.com/iv-web/badjs",
+  "homepage": "https://github.com/iv-web/badjs2",
   "keywords": [
     "badjs"
   ]

@@ -4,9 +4,17 @@ const getImgLib = require('../lib/getImg.js');
 const moment = require('moment');
 const getScore = require('../lib/getScore.js');
 const path = require('path')
-const pjconfig = require('../project.json');
+const hhScore = require('./handle-hongheibang.js');
+const getLogDataInt = require('./get_log_data.js');
 
-const mail = require("../utils/ivwebMail.js");
+const pjConfig = require('../project.json');
+
+const mail = require("../utils/ivwebMail_for_single.js");
+
+
+if (process.env.WEB_EMAIL_TO) {
+    pjConfig.scoreMailTo = process.env.WEB_EMAIL_TO;
+}
 
 function getScoreParam(Score) {
     var param = {
@@ -21,7 +29,7 @@ function getScoreParam(Score) {
 function getScoreData(param, db) {
 
     return new Promise((resolve, reject) => {
-        var sql = "select s.*, a.name from b_quality as s, b_apply as a where s.badjsid=a.id and s.pv>0 and s.date>" + param.date + " order by s.date;";
+        var sql = "select s.*, a.name from b_quality as s, b_apply as a where s.badjsid=a.id and a.status=1 and s.pv>0 and s.date>" + param.date + " order by s.date;";
         db.driver.execQuery(sql, (err, data) => {
             resolve(data);
 
@@ -39,7 +47,7 @@ function getScoreData(param, db) {
 
 function getApplyList(db) {
     return new Promise((resolve, reject) => {
-        var sql = "select * from b_apply;";
+        var sql = "select * from b_apply where status=1;";
         db.driver.execQuery(sql, (err, data) => {
             resolve(data)
             })
@@ -53,12 +61,19 @@ function handleScorePic(Score, db, closeCallback) {
     var param = getScoreParam(Score),
         getScore_pro = getScoreData(param, db),
         getApply_pro = getApplyList(db),
+        gethhScore = hhScore(db),
+        getLogData = getLogDataInt(db),
+        hhd = '',
+        logdata = '',
         perCount = 8; 
 
     // 拿到数据
-    Promise.all([getScore_pro, getApply_pro]).then(data => {
+    Promise.all([getScore_pro, getApply_pro, gethhScore, getLogData]).then(data => {
         var scoreData = data[0],
         applyList = data[1];
+
+        hhd = data[2];
+        logdata = data[3];
 
         var applyMap = {};
         applyList.forEach(item => {
@@ -117,7 +132,7 @@ function handleScorePic(Score, db, closeCallback) {
             }
         })
 
-
+        // sort by pv
         applyList = applyList.map(item => {
             if (item.score === undefined) 
                 item.score = 110;
@@ -138,14 +153,23 @@ function handleScorePic(Score, db, closeCallback) {
                     return 0;
                 }
             }
-           
         })
 
-        // console.log(JSON.stringify(applyList));
+        var applyList_offline = [];
+        applyList = applyList.filter( item => {
+             if (item.online == 2 && item.pv > 0 && item.limitpv < item.pv) {
+                 return true;
+             } else {
+                 applyList_offline.push(item);
+             }
+        })
+
+        applyList = applyList.concat(applyList_offline);
+
 
         var html = [];
         html.push('<style>td,th {border-bottom: 1px solid #b7a2a2;border-right: 1px solid #b7a2a2;} table {border-top: 1px solid black;border-left: 1px solid black;} </style>')
-        html.push('<table border="0" cellspacing="0" cellpadding="0"><tr><th>业务名称</th><th>负责人</th><th>评分</th><th>错误率</th><th>pv</th><th>badjs错误量</th><th>日期</th></tr>');
+        html.push('<table border="0" cellspacing="0" cellpadding="0"><tr><th>业务名称</th><th>负责人</th><th>评分</th><th>错误率</th><th>pv</th><th>badjs错误量</th><td>上线</th><th>设定pv</td><th>日期</th></tr>');
         applyList.forEach(item => {
 
             html.push('<tr>');
@@ -154,7 +178,9 @@ function handleScorePic(Score, db, closeCallback) {
 
             html.push(`<td>${item.score > 100 ? '-' : item.score}</td>`);
 
-            ['rate', 'pv', 'badjscount', 'date'].forEach(item2 => {
+            item.online = item.online == 2 ? '上线' : '下线';
+
+            ['rate', 'pv', 'badjscount','online', 'limitpv', 'date'].forEach(item2 => {
                 html.push(`<td>${item[item2] !== undefined ? item[item2] : '-'}</td>`);
             })
 
@@ -164,13 +190,18 @@ function handleScorePic(Score, db, closeCallback) {
         html.push('</table>');
 
 	    html.push('<p>注：badjs得分规则</p> <p>（1）当报错率 <= 0.5%： badjs得分=100</p> <p>（2）当 0.5%< 报错率 < 10%：badjs得分： 100 - 10 * 报错率</p> <p>（3）当报错率 >= 10%： badjs得分=0</p>');
+
+        html.push(hhd);
+        html.push(logdata);
+
+        //console.log(html.join(''));
+
         return [html.join(''), arrData[1]];
 
-        
 
     }).then( (data) => {
         setTimeout(() => {
-             sendMail(data);
+            sendMail(data);
         }, 5000)
     })
 }
@@ -209,7 +240,9 @@ function sendMail(data) {
 
     var attachments =  ac;
 
-     mail('', pjconfig.mailTo, 'x@x.com', 'IVWEB badjs质量评分日报', content.join(''), attachments);
+    mail('', pjConfig.scoreMailTo, '', 'IVWEB badjs质量评分日报', content.join(''), attachments);
+
+     // mail('', 'xx@xx.com', 'xx@xx.com', 'IVWEB badjs质量评分日报', content.join(''), attachments);
 
 }
 

@@ -48,7 +48,7 @@ module.exports = function(app){
             UserAction.login({}, req , res);
         }
     } );
-
+    
     app.use('/register.html', function (req , res){
         UserAction.register({}, req , res);
     } );

@@ -7,9 +7,9 @@ var path = require("path");
 
 var argv = process.argv.slice(2);
 if(argv.indexOf('--project') >= 0){
-    GLOBAL.pjconfig =  require(path.join(__dirname , 'project.debug.json'));
+    global.pjconfig =  require(path.join(__dirname , 'project.debug.json'));
 }else {
-    GLOBAL.pjconfig = require(path.join(__dirname , 'project.json'));
+    global.pjconfig = require(path.join(__dirname , 'project.json'));
 }
 
 if(argv.indexOf('--debug') >= 0){
@@ -20,8 +20,8 @@ if(argv.indexOf('--debug') >= 0){
 }
 
 
-GLOBAL.MONGODB = GLOBAL.pjconfig.mongodb;
-var dispatcher = require(GLOBAL.pjconfig.acceptor.module)
+global.MONGODB = global.pjconfig.mongodb;
+var dispatcher = require(global.pjconfig.acceptor.module)
   , save = require('./storage/MongodbStorage');
 
 

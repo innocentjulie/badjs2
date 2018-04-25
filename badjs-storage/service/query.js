@@ -265,8 +265,8 @@ module.exports = function() {
 
             var json = req.query;
             var id = json.id,
-                startDate = json.startDate,
-                endDate = json.endDate;
+                startDate = json.startDate.getTime(),
+                endDate = json.endDate.getTime();
 
             var queryJSON = {
                 all: {}
@@ -320,6 +320,7 @@ module.exports = function() {
             if (global.debug) {
                 logger.debug("query logs id=" + id + ",query=" + JSON.stringify(queryJSON));
             }
+            logger.info("query logs id=" + id + ",query=" + JSON.stringify(queryJSON));
 
             mongoDB.collection('badjslog_' + id).find(queryJSON, function(error, cursor) {
                 res.writeHead(200, {
